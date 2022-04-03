@@ -92,7 +92,7 @@ defmodule OffBroadway.MQTT.Client do
       server: server
     ]
 
-    Tortoise.Supervisor.start_child(opts)
+    Tortoise311.Supervisor.start_child(opts)
   end
 
   defp warn_if_client_id_is_to_large(client_id)
@@ -114,11 +114,11 @@ defmodule OffBroadway.MQTT.Client do
   end
 
   defp get_mqtt_server(%{server: {:ssl, opts}}) do
-    {Tortoise.Transport.SSL, opts}
+    {Tortoise311.Transport.SSL, opts}
   end
 
   defp get_mqtt_server(%{server: {:tcp, opts}}) do
-    {Tortoise.Transport.Tcp, opts}
+    {Tortoise311.Transport.Tcp, opts}
   end
 
   defp get_mqtt_server(%{server: {transport, _}}) do

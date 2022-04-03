@@ -9,8 +9,8 @@ defmodule Reflow.PreflightCheck do
   require Logger
 
   alias OffBroadway.MQTT.TestHandler
-  alias Tortoise.Connection
-  alias Tortoise.Transport.Tcp
+  alias Tortoise311.Connection
+  alias Tortoise311.Transport.Tcp
 
   def call do
     wait_for_mqtt()

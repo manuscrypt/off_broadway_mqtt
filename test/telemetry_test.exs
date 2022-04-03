@@ -41,7 +41,7 @@ defmodule OffBroadway.MQTT.TelemetryTest do
       topic = to_string(context.test)
       Producer.init([context.config, subscription: {topic, 0}, sub_ack: self()])
       assert_receive_sub_ack(_, topic)
-      Tortoise.publish(context.test_client_id, topic, "Hello, World!")
+      Tortoise311.publish(context.test_client_id, topic, "Hello, World!")
       assert_receive {:telemetry, ^event, %{count: 1}, meta, nil}, 5000
       assert meta.topic_filter == topic
       assert meta.qos

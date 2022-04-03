@@ -19,8 +19,8 @@ defmodule OffBroadway.MQTT.Assertions do
   end
 
   def assert_mqtt_client_running(client_id, tries) do
-    Tortoise.Registry
-    |> Registry.lookup({Tortoise.Connection, client_id})
+    Tortoise311.Registry
+    |> Registry.lookup({Tortoise311.Connection, client_id})
     |> case do
       [] -> assert_mqtt_client_running(client_id, tries + 1)
       [_] -> true
@@ -41,8 +41,8 @@ defmodule OffBroadway.MQTT.Assertions do
   end
 
   def refute_mqtt_client_running(client_id, tries) do
-    Tortoise.Registry
-    |> Registry.lookup({Tortoise.Connection, client_id})
+    Tortoise311.Registry
+    |> Registry.lookup({Tortoise311.Connection, client_id})
     |> case do
       [_] ->
         Process.sleep(500)

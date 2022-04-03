@@ -88,10 +88,7 @@ defmodule OffBroadway.MQTTCase do
   def start_supervisor(%{test: name_prefix} = context) do
     name = :"#{name_prefix} supervisor"
 
-    {:ok, _} =
-      start_supervised(
-        {DynamicSupervisor, [name: name, strategy: :one_for_one]}
-      )
+    {:ok, _} = start_supervised({DynamicSupervisor, [name: name, strategy: :one_for_one]})
 
     context
     |> Map.put(:supervisor, name)
@@ -120,11 +117,11 @@ defmodule OffBroadway.MQTTCase do
     tortoise_opts = [
       client_id: client_id,
       handler: {OffBroadway.MQTT.TestHandler, [pid: self()]},
-      server: {Tortoise.Transport.Tcp, server_opts},
+      server: {Tortoise311.Transport.Tcp, server_opts},
       subscriptions: subscriptions
     ]
 
-    {:ok, _} = Tortoise.Connection.start_link(tortoise_opts)
+    {:ok, _} = Tortoise311.Connection.start_link(tortoise_opts)
 
     receive do
       {:test_mqtt_client, :up} -> :ok

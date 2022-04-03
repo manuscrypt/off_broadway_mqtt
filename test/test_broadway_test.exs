@@ -30,9 +30,8 @@ defmodule OffBroadway.MQTT.TestBroadwayTest do
       config = config_from_context(context)
       opts = test_broadway_opts_from_context(context)
       assert {:ok, pid} = TestBroadway.start_link(config, opts)
-
       data = wrap_data("test", opts[:topic])
-      Broadway.test_messages(pid, [data])
+      Broadway.test_batch(opts[:name], [data])
 
       assert_receive {:process_fun, ^data}
     end
@@ -47,10 +46,9 @@ defmodule OffBroadway.MQTT.TestBroadwayTest do
       assert {:ok, pid} = TestBroadway.start_link(config, opts)
 
       data = wrap_data("test", opts[:topic])
-      ref = Broadway.test_messages(pid, [data])
+      ref = Broadway.test_batch(opts[:name], [data])
 
-      assert_receive {:ack, ^ref, [],
-                      [%{status: {:failed, %RuntimeError{}}, data: ^data}]},
+      assert_receive {:ack, ^ref, [], [%{status: {:failed, %RuntimeError{}}, data: ^data}]},
                      5000
     end
 
@@ -60,7 +58,7 @@ defmodule OffBroadway.MQTT.TestBroadwayTest do
       assert {:ok, pid} = TestBroadway.start_link(config, opts)
 
       data = wrap_data("test", opts[:topic])
-      Broadway.test_messages(pid, [data])
+      Broadway.test_batch(opts[:name], [data])
 
       assert_receive {:batch_fun, [%{data: ^data}]}, 5000
     end
@@ -75,10 +73,9 @@ defmodule OffBroadway.MQTT.TestBroadwayTest do
       assert {:ok, pid} = TestBroadway.start_link(config, opts)
 
       data = wrap_data("test", opts[:topic])
-      ref = Broadway.test_messages(pid, [data])
+      ref = Broadway.test_batch(opts[:name], [data])
 
-      assert_receive {:ack, ^ref, [],
-                      [%{status: {:failed, %RuntimeError{}}, data: ^data}]},
+      assert_receive {:ack, ^ref, [], [%{status: {:failed, %RuntimeError{}}, data: ^data}]},
                      5000
     end
 
@@ -88,7 +85,7 @@ defmodule OffBroadway.MQTT.TestBroadwayTest do
       assert {:ok, pid} = TestBroadway.start_link(config, opts)
 
       data = wrap_data("test", opts[:topic])
-      ref = Broadway.test_messages(pid, [data])
+      ref = Broadway.test_batch(opts[:name], [data])
       assert_receive {:ack, ^ref, [%{data: ^data}], []}, 5000
     end
 
@@ -100,7 +97,7 @@ defmodule OffBroadway.MQTT.TestBroadwayTest do
       assert_receive {:subscription, _client_id, _topic, :up}
 
       expected_data = wrap_data("Hello, World!", opts[:topic])
-      Tortoise.publish(context.test_client_id, opts[:topic], "Hello, World!")
+      Tortoise311.publish(context.test_client_id, opts[:topic], "Hello, World!")
       assert_receive {:process_fun, ^expected_data}, 2000
       assert_receive {:batch_fun, [%{data: ^expected_data}]}, 2000
     end
@@ -115,7 +112,7 @@ defmodule OffBroadway.MQTT.TestBroadwayTest do
       expected_data = wrap_data("Hello, World!", opts[:topic])
 
       for _ <- 1..10 do
-        Tortoise.publish(context.test_client_id, opts[:topic], "Hello, World!")
+        Tortoise311.publish(context.test_client_id, opts[:topic], "Hello, World!")
         Process.sleep(50)
       end
 

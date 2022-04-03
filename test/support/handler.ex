@@ -1,7 +1,7 @@
 defmodule OffBroadway.MQTT.TestHandler do
   @moduledoc false
 
-  use Tortoise.Handler
+  use Tortoise311.Handler
 
   def init(opts) do
     {:ok, opts}

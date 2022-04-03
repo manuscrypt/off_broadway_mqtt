@@ -31,15 +31,12 @@ defmodule OffBroadway.MQTT.TestBroadway do
 
     Broadway.start_link(__MODULE__,
       name: name,
-      producers: [
-        default: [
-          module: {Producer, producer_opts},
-          stages: 1
-        ]
+      producer: [
+        module: {Producer, producer_opts}
       ],
-      processors: [default: [stages: 1]],
+      processors: [default: [concurrency: 1]],
       batchers: [
-        default: [stages: 1, batch_size: 10]
+        default: [concurrency: 1, batch_size: 10]
       ],
       context: %{
         process_fun: process_fun,

@@ -6,7 +6,7 @@ defmodule OffBroadway.MQTT.Handler do
   # Incoming messages are wrapped in `t:Broadway.Message.t/0` structs and pushed
   # into the provided queue.
 
-  use Tortoise.Handler
+  use Tortoise311.Handler
 
   require Logger
 
