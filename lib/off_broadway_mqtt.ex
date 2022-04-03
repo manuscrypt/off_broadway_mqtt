@@ -53,6 +53,11 @@ defmodule OffBroadway.MQTT do
     prefix <> "_" <> random
   end
 
+  @spec unique_client_id(config) :: String.t()
+  def unique_client_id(%{client_id: prefix}) do
+    prefix
+  end
+
   @doc """
   Returns the name for the queue belonging to the given topic.
   """
