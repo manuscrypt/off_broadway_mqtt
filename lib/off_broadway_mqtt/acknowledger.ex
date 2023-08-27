@@ -47,9 +47,7 @@ defmodule OffBroadway.MQTT.Acknowledger do
     Enum.each(messages, &send_telemetry_event/1)
 
     Logger.debug(
-      "Successfully processed #{Enum.count(messages)} messages on #{
-        inspect(topic)
-      }"
+      "Successfully processed #{Enum.count(messages)} messages on #{inspect(topic)}"
     )
 
     :ok
@@ -88,7 +86,7 @@ defmodule OffBroadway.MQTT.Acknowledger do
   end
 
   defp log_failure_for_exception(%mod{ack: :retry} = e, metadata) do
-    Logger.warn(mod.message(e), metadata)
+    Logger.warning(mod.message(e), metadata)
   end
 
   defp log_failure_for_exception(%mod{} = e, metadata) do

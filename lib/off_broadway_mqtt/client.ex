@@ -97,7 +97,7 @@ defmodule OffBroadway.MQTT.Client do
 
   defp warn_if_client_id_is_to_large(client_id)
        when byte_size(client_id) > 23 do
-    Logger.warn(
+    Logger.warning(
       "Using a client id that is larger than 23 bytes. That might be a" <>
         " problem for the broker you are using!"
     )

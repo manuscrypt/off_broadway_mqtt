@@ -144,7 +144,7 @@ defmodule OffBroadway.MQTT.Producer do
 
       {:error, {:already_started, _}} ->
         topic = MQTT.topic_from_queue_name(queue_name)
-        Logger.warn("queue for topic #{inspect(topic)} is already started")
+        Logger.warning("queue for topic #{inspect(topic)} is already started")
         :ok
 
       :ignore ->
@@ -176,7 +176,9 @@ defmodule OffBroadway.MQTT.Producer do
     reason
   end
 
-  defp handle_dequeue_messages(%{dequeue_timer: nil, demand: demand, config: config} = state)
+  defp handle_dequeue_messages(
+         %{dequeue_timer: nil, demand: demand, config: config} = state
+       )
        when demand > 0 do
     messages = dequeue_messages_from_queue(state, demand)
     new_demand = demand - length(messages)
@@ -188,7 +190,8 @@ defmodule OffBroadway.MQTT.Producer do
         _ -> schedule_dequeue_messages(0)
       end
 
-    {:noreply, messages, %{state | demand: new_demand, dequeue_timer: dequeue_timer}}
+    {:noreply, messages,
+     %{state | demand: new_demand, dequeue_timer: dequeue_timer}}
   end
 
   defp handle_dequeue_messages(state) do

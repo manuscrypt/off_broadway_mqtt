@@ -1,4 +1,4 @@
-use Mix.Config
+import Config
 
 config :off_broadway_mqtt,
   telemetry_enabled: true,
